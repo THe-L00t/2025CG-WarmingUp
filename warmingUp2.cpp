@@ -243,7 +243,7 @@ int main() {
 					Ent++;
 					for (auto& c : s) {
 						std::cout << c;
-						if (isalnum(c)) std::cout << std::endl;
+						if (isdigit(c)) std::cout << std::endl;
 					}
 					std::cout << ' ';
 					if (Ent == 6 || Ent == 14 || Ent == 19 || Ent == 25 || Ent == 29 || Ent == 36 || Ent == 54 || Ent == 65 || Ent == 71) std::cout << std::endl;

@@ -36,6 +36,7 @@ public:
 
 	void push_back(const Point3D& p) {
 		data[b++] = std::make_unique<Point3D>(p);
+		
 	}
 	void push_front(const Point3D& p) {
 		b++;
@@ -80,25 +81,36 @@ public:
 				std::println("{:<2}[null null null]", i);
 			}
 		}
+		s = true;
 	}
 
 	size_t size()const {
 		return b-f;
 	}
 	void print() {
-		for (size_t i = data.size()-1; i+1 > 0; --i)
-		{
-			if (data[i] not_eq nullptr) {
-				std::println("{:<2}[{:^4} {:^4} {:^4}]", i, data[i].get()->x, data[i].get()->y, data[i].get()->z);
-			}
-			else {
-				std::println("{:<2}[null null null]", i );
+		if (not s) {
+			for (size_t i = data.size() - 1; i + 1 > 0; --i)
+			{
+				if (data[i] not_eq nullptr) {
+					std::println("{:<2}[{:^4} {:^4} {:^4}]", i, data[i].get()->x, data[i].get()->y, data[i].get()->z);
+				}
+				else {
+					std::println("{:<2}[null null null]", i);
+				}
 			}
 		}
+		else if (s) {
+			sort();
+		}
+	}
+	void nSort() {
+		s = false;
 	}
 private:
 	std::array<std::unique_ptr<Point3D>, 10> data{};
 	size_t f{}, b{};
+	size_t sf{}, sb{};
+	bool s{ false };
 };
 
 int main()
@@ -163,6 +175,7 @@ int main()
 			}
 			else {
 				ftogle = true;
+				vq.nSort();
 				system("cls");
 				vq.print();
 			}
