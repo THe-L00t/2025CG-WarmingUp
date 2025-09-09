@@ -20,7 +20,7 @@ struct Rect {
 	Rect() = default;
 	Rect(int x1, int y1, int x2, int y2) {
 		s.x = x1;s.y = y1;
-		w = x2 - x1; h = y2 - y1;
+		w = x2 - x1+1; h = y2 - y1+1;
 	}
 	~Rect() = default;
 	Point s{};
@@ -49,6 +49,7 @@ public:
 		int a, b, c, d;
 		std::cin >> a >> b >> c >> d;
 		std::cin.clear();
+		std::cin.ignore(100, '\n');
 		ra = std::make_unique<Rect>(a,b,c,d);
 		std::cout << "input coord value2 : ";
 		std::cin >> a >> b >> c >> d;
@@ -57,16 +58,28 @@ public:
 	}
 
 	void postPrint() {
-		for (size_t i = ra.get()->s.y; i < ra.get()->h; i++)
+		for (auto& a1 : m) {
+			for (auto& a2 : a1) {
+				a2 = Nov;
+			}
+		}
+		for (size_t i = 0; i < h; i++)
 		{
-			for (size_t j = 0; j < ra.get()->w; j++)
+			for (size_t j = 0; j < w; j++)
+			{
+				m[i][j] = Null;
+			}
+		}
+		for (size_t i = ra.get()->s.y; i < ra.get()->s.y + ra.get()->h; i++)
+		{
+			for (size_t j = ra.get()->s.x; j < ra.get()->s.x + ra.get()->w; j++)
 			{
 				m[i][j] = FirR;
 			}
 		}
-		for (size_t i = rb.get()->s.y; i < rb.get()->h; i++)
+		for (size_t i = rb.get()->s.y; i < rb.get()->s.y + rb.get()->h; i++)
 		{
-			for (size_t j = 0; j < rb.get()->w; j++)
+			for (size_t j = rb.get()->s.x; j < rb.get()->s.x + rb.get()->w; j++)
 			{
 				if (m[i][j] == FirR) {
 					m[i][j] = Mul;
@@ -123,42 +136,48 @@ public:
 		}
 		ra.release();
 		rb.release();
+
+		setRect();
 	}
 
 	void plus() {
-		w++;h++;
-		for (auto& a1 : m) {
-			for (auto& a2 : a1) {
-				a2 = Nov;
+		if (w < 40) {
+			w++; h++;
+			for (auto& a1 : m) {
+				for (auto& a2 : a1) {
+					a2 = Nov;
+				}
 			}
-		}
-		for (size_t i = 0; i < h; i++)
-		{
-			for (size_t j = 0; j < w; j++)
+			for (size_t i = 0; i < h; i++)
 			{
-				m[i][j] = Null;
+				for (size_t j = 0; j < w; j++)
+				{
+					m[i][j] = Null;
+				}
 			}
 		}
 	}
 
 	void minus() {
-		w--;h--;
-		for (auto& a1 : m) {
-			for (auto& a2 : a1) {
-				a2 = Nov;
+		if (w > 20) {
+			w--; h--;
+			for (auto& a1 : m) {
+				for (auto& a2 : a1) {
+					a2 = Nov;
+				}
 			}
-		}
-		for (size_t i = 0; i < h; i++)
-		{
-			for (size_t j = 0; j < w; j++)
+			for (size_t i = 0; i < h; i++)
 			{
-				m[i][j] = Null;
+				for (size_t j = 0; j < w; j++)
+				{
+					m[i][j] = Null;
+				}
 			}
 		}
 	}
 	void print() const{
 		system("cls");
-
+		
 		for (auto& a1 : m) {
 			for (auto& a2 : a1) {
 				switch (a2) {
@@ -184,6 +203,7 @@ public:
 					break;
 				}
 			}
+			std::cout << std::endl;
 		}
 	}
 private:
@@ -197,6 +217,8 @@ int main() {
 	map mm{};
 	mm.setRect();
 	bool togle{ true }, selA{true};
+	mm.postPrint();
+	mm.print();
 	while (method not_eq 'q') {
 		std::cout << "명령어를 입력하세요 : ";
 		std::cin >> method;
@@ -216,6 +238,7 @@ int main() {
 			else {
 				selA = true;
 			}
+			break;
 		case'w':
 			if (togle) {
 				if (selA) mm.move('a', 0, -1);
@@ -265,13 +288,28 @@ int main() {
 			}
 			break;
 		case',':	//보드 사이즈 감소
+			mm.minus();
 			break;
 		case'.':
+			mm.plus();
 			break;
 		case 'r':
 			mm.reset();
 			break;
 
 		}
+		mm.postPrint();
+		mm.print();
 	}
 }
+
+// 명령어 사용법
+// 모드 변경 : u
+// * 기본 모드 : 이동 / 변경 모드 : 확대 축소
+// 사각형 바꾸기 : i
+// 가로 이동/확대축소 : d,a
+// 세로 이동/확대축호 : w,s
+// 넓이 확인 : c
+// 보드칸 확대 : .
+// 보드칸 축소 : ,
+// 리셋 : r
