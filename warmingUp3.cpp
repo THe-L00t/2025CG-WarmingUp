@@ -36,7 +36,7 @@ public:
 
 	void push_back(const Point3D& p) {
 		data[b++] = std::make_unique<Point3D>(p);
-		
+
 	}
 	void push_front(const Point3D& p) {
 		b++;
@@ -72,7 +72,7 @@ public:
 			}
 		}
 		std::sort(temp.begin(), temp.end());
-		for (size_t i = 9; i+1 > 0; --i)
+		for (size_t i = 9; i + 1 > 0; --i)
 		{
 			if (i < temp.size()) {
 				std::println("{:<2}[{:^4} {:^4} {:^4}]", i, temp[i].x, temp[i].y, temp[i].z);
@@ -85,7 +85,7 @@ public:
 	}
 
 	size_t size()const {
-		return b-f;
+		return b - f;
 	}
 	void print() {
 		if (not s) {
@@ -179,7 +179,7 @@ int main()
 				system("cls");
 				vq.print();
 			}
-			
+
 			break;
 		}
 	}

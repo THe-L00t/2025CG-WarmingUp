@@ -224,7 +224,9 @@ int main() {
 				etogle = true;
 				a.copy(atemp);
 				b.copy(btemp);
+				std::cout << "a 青纺" << std::endl;
 				a.print();
+				std::cout << "b 青纺" << std::endl;
 				b.print();
 			}
 			break;
@@ -244,7 +246,9 @@ int main() {
 				ftogle = true;
 				a.copy(atemp);
 				b.copy(btemp);
+				std::cout << "a 青纺" << std::endl;
 				a.print();
+				std::cout << "b 青纺" << std::endl;
 				b.print();
 			}
 			break;
